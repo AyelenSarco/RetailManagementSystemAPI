@@ -1,4 +1,4 @@
-package com.example.retail.retail_management_system.exception;
+package com.example.retail.retail_management_system.dto;
 
 
 import lombok.*;
