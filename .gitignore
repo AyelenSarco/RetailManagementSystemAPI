@@ -42,7 +42,7 @@ HELP.md
 src/main/resources/application.properties
 src/main/resources/application.yml
 src/main/resources/application.yaml
-!src/main/resources/application-example.properties
+!src/main/resources/application.example.properties
 
 ## logs
 *.log
