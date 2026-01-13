@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,11 +22,11 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate saleDate;
-    private Double totalAmount;
+    private Double total;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL,
                 orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<SaleDetail> saleDetails;
+    private List<SaleDetail> saleDetails = new ArrayList<>();
 
     @ManyToOne
     private Customer customer;
