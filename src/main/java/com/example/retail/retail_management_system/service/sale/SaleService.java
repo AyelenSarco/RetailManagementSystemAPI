@@ -1,15 +1,22 @@
 package com.example.retail.retail_management_system.service.sale;
 
 import com.example.retail.retail_management_system.dto.SaleDTO;
+import com.example.retail.retail_management_system.dto.SaleDetailDTO;
 import com.example.retail.retail_management_system.exception.NotFoundException;
+import com.example.retail.retail_management_system.mapper.SaleDetailMapper;
 import com.example.retail.retail_management_system.mapper.SaleMapper;
 import com.example.retail.retail_management_system.model.Customer;
+import com.example.retail.retail_management_system.model.Product;
 import com.example.retail.retail_management_system.model.Sale;
+import com.example.retail.retail_management_system.model.SaleDetail;
 import com.example.retail.retail_management_system.repository.ICustomerRepository;
+import com.example.retail.retail_management_system.repository.IProductRepository;
 import com.example.retail.retail_management_system.repository.ISaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,7 +25,9 @@ public class SaleService implements ISaleService {
 
     private final ISaleRepository saleRepo;
     private final ICustomerRepository customerRepo;
+    private final IProductRepository productRepo;
     private final SaleMapper saleMapper;
+    private final SaleDetailMapper saleDetailMapper;
 
     @Override
     public SaleDTO createSale(SaleDTO saleDTO) {
@@ -27,8 +36,32 @@ public class SaleService implements ISaleService {
                 () -> new NotFoundException("Customer not found")
         );
 
-        Sale sale = saleMapper.toEntity(saleDTO, customer);
-        return saleMapper.toDTO(saleRepo.save(sale));
+        Sale sale = saleMapper.toEntity(saleDTO);
+        sale.setCustomer(customer);
+        sale.setSaleDate(LocalDate.now());
+
+        List<SaleDetail> details = new ArrayList<>();
+        Product product;
+        SaleDetail saleDetail;
+
+        for (SaleDetailDTO detailDTO : saleDTO.getSaleDetails()) {
+            product = productRepo.findById(detailDTO.getProductId())
+                    .orElseThrow(() -> new NotFoundException("Product not found"));
+
+            saleDetail = saleDetailMapper.toEntity(detailDTO);
+
+            saleDetail.setProduct(product);
+            saleDetail.setSale(sale);
+
+            details.add(saleDetail);
+
+        }
+
+        sale.setSaleDetails(details);
+
+        SaleDTO dbSaleDTO = saleMapper.toDTO(saleRepo.save(sale));
+
+        return dbSaleDTO;
 
     }
 
@@ -55,8 +88,21 @@ public class SaleService implements ISaleService {
         saleRepo.deleteById(id);
     }
 
+    // Update sale data only (no sale details affected).
     @Override
     public SaleDTO updateSale(Long id, SaleDTO saleDTO) {
-        return null;
+
+        Sale sale = saleRepo.findById(id).orElseThrow(() -> new NotFoundException("Sale not found"));
+
+        if (saleDTO.getSaleDate() != null) {
+            sale.setSaleDate(saleDTO.getSaleDate());
+        }
+        if (saleDTO.getTotal() != null) {
+            sale.setTotal(saleDTO.getTotal());
+        }
+        saleRepo.save(sale);
+
+        return saleMapper.toDTO(sale);
+
     }
 }
