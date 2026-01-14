@@ -1,7 +1,7 @@
 package com.example.retail.retail_management_system.exception;
 
 
-import com.example.retail.retail_management_system.dto.ApiResponse;
+import com.example.retail.retail_management_system.dto.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

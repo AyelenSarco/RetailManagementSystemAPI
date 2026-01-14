@@ -1,4 +1,4 @@
-package com.example.retail.retail_management_system.dto;
+package com.example.retail.retail_management_system.dto.report;
 
 
 import lombok.*;
