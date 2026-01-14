@@ -1,9 +1,10 @@
 package com.example.retail.retail_management_system.service.sale;
 
-import com.example.retail.retail_management_system.dto.DailySalesSummaryDTO;
+import com.example.retail.retail_management_system.dto.report.DailySalesSummaryDTO;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.dto.SaleDetailDTO;
+import com.example.retail.retail_management_system.dto.report.TopSaleSummaryDTO;
 import com.example.retail.retail_management_system.exception.InsufficientStockException;
 import com.example.retail.retail_management_system.exception.NotFoundException;
 import com.example.retail.retail_management_system.mapper.ProductMapper;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
@@ -146,6 +148,25 @@ public class SaleService implements ISaleService {
                 .totalAmount(stats.getSum())
                 .totalSaleCount(Math.toIntExact(stats.getCount()))
                 .build();
+
+    }
+
+    @Override
+    public TopSaleSummaryDTO getTopSaleSummary() {
+
+        Sale sale = saleRepo.findAll().stream()
+                .max(Comparator.comparing(Sale::getTotal)).get();
+
+        return TopSaleSummaryDTO.builder()
+                    .totalAmount(sale.getTotal())
+                    .saleCode(sale.getId())
+                    .customerFirstName(sale.getCustomer().getFirstName())
+                    .customerLastName(sale.getCustomer().getLastName())
+                    .totalProducts(sale.getSaleDetails().stream()
+                            .mapToInt(SaleDetail::getQuantity)
+                            .sum())
+                    .build();
+
 
     }
 

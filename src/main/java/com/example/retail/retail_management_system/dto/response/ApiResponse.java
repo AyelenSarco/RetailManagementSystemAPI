@@ -1,7 +1,6 @@
-package com.example.retail.retail_management_system.dto;
+package com.example.retail.retail_management_system.dto.response;
 
 import com.example.retail.retail_management_system.exception.ApiError;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.ZonedDateTime;
 import java.util.List;

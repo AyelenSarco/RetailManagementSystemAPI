@@ -1,9 +1,9 @@
 package com.example.retail.retail_management_system.service.sale;
 
-import com.example.retail.retail_management_system.dto.DailySalesSummaryDTO;
+import com.example.retail.retail_management_system.dto.report.DailySalesSummaryDTO;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.example.retail.retail_management_system.dto.report.TopSaleSummaryDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +19,8 @@ public interface ISaleService {
     List<ProductDTO> getProductsFromSale(Long id);
 
     DailySalesSummaryDTO getDailySalesSummary(LocalDate date);
+
+    TopSaleSummaryDTO getTopSaleSummary();
 
 
 }

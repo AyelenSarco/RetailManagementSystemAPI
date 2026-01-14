@@ -1,13 +1,15 @@
 package com.example.retail.retail_management_system.controller;
 
 
-import com.example.retail.retail_management_system.dto.ApiResponse;
-import com.example.retail.retail_management_system.dto.DailySalesSummaryDTO;
+import com.example.retail.retail_management_system.dto.report.TopSaleSummaryDTO;
+import com.example.retail.retail_management_system.dto.response.ApiResponse;
+import com.example.retail.retail_management_system.dto.report.DailySalesSummaryDTO;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.service.sale.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +78,14 @@ public class SaleController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("Daily total", dailySalesSummaryDTO));
+    }
+
+    @GetMapping("/top-sale")
+    public ResponseEntity<Object> getTopSale(){
+
+        TopSaleSummaryDTO topSaleDTO = saleService.getTopSaleSummary();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("Top sale", topSaleDTO));
     }
 }

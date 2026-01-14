@@ -1,8 +1,7 @@
 package com.example.retail.retail_management_system.controller;
 
-import com.example.retail.retail_management_system.dto.ApiResponse;
+import com.example.retail.retail_management_system.dto.response.ApiResponse;
 import com.example.retail.retail_management_system.dto.CustomerDTO;
-import com.example.retail.retail_management_system.model.Customer;
 import com.example.retail.retail_management_system.service.customer.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

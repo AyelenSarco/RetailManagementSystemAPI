@@ -1,11 +1,10 @@
 package com.example.retail.retail_management_system.controller;
 
-import com.example.retail.retail_management_system.dto.ApiResponse;
+import com.example.retail.retail_management_system.dto.response.ApiResponse;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.service.product.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
