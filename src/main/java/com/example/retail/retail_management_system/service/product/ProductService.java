@@ -69,4 +69,15 @@ public class ProductService implements IProductService {
 
         return productMapper.toDTO(productRepo.save(product));
     }
+
+    @Override
+    public List<ProductDTO> checkStock(Integer quantity) {
+
+        List<ProductDTO> productDTOS = productRepo.findAll().stream()
+                        .filter(product -> product.getStock() < quantity)
+                        .map(productMapper::toDTO)
+                        .toList();
+
+        return productDTOS;
+    }
 }

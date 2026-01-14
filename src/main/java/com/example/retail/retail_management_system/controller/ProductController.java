@@ -5,6 +5,7 @@ import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.service.product.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,18 @@ public class ProductController {
                 .body(ApiResponse.success("Updated product successfully", dbProductDto));
     }
 
+    @GetMapping("/check-stock/{quantity}")
+    public ResponseEntity<Object> checkStock(@PathVariable Integer quantity) {
+
+        List<ProductDTO> productsDTO = productService.checkStock(quantity);
+
+        if (productsDTO.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(ApiResponse.success("There are no products with stock below to " + quantity, productsDTO));
+        }
+        
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("Product with stock less than " + quantity ,productsDTO));
+    }
 
 }
