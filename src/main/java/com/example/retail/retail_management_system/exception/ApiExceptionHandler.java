@@ -53,4 +53,12 @@ public class ApiExceptionHandler {
                 .body(ApiResponse.failure("Bad Request", errors));
     }
 
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<Object> handleInsufficientStockException(InsufficientStockException ex) {
+        ApiError error = new ApiError(ex.getMessage(), "CONFLICT");
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiResponse.failure("Conflict", List.of(error)));
+    }
+
 }

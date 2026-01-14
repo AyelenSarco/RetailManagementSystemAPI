@@ -2,6 +2,7 @@ package com.example.retail.retail_management_system.service.sale;
 
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.dto.SaleDetailDTO;
+import com.example.retail.retail_management_system.exception.InsufficientStockException;
 import com.example.retail.retail_management_system.exception.NotFoundException;
 import com.example.retail.retail_management_system.mapper.SaleDetailMapper;
 import com.example.retail.retail_management_system.mapper.SaleMapper;
@@ -50,11 +51,16 @@ public class SaleService implements ISaleService {
 
             saleDetail = saleDetailMapper.toEntity(detailDTO);
 
+            if (product.getStock() < saleDetail.getQuantity() ) {
+                throw new InsufficientStockException("Not enough stock available for product:" + product.getName());
+            }
+
+            product.setStock( product.getStock() - saleDetail.getQuantity());
+
             saleDetail.setProduct(product);
             saleDetail.setSale(sale);
 
             details.add(saleDetail);
-
         }
 
         sale.setSaleDetails(details);

@@ -12,7 +12,6 @@ import lombok.*;
 public class ProductDTO {
 
     private Long id;
-    @NotBlank(message = "Product name required.")
     private String name;
     private String brand;
     @NotNull(message = "Current price required.")
