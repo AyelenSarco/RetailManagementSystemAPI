@@ -75,20 +75,36 @@ Example configuration files are included in the repository:
 
 These files can be used as a reference to configure the application locally.
 
-## Build and Run the Application
 
-1. Configure environment variables using `.env`
-2. Configure database properties in `application.properties`
-3. Run the application from your IDE or using Maven:
-    ```bash
-      mvn spring-boot:run
-    ```
+# Docker
+
+The application can be run using Docker and Docker Compose, providing a fully containerized environment for both the Spring Boot API and the MySQL database.
+
+## Requirements
+- Docker
+- Docker Compose
+
+## Environment variables
+
+The Docker Compose configuration loads environment variables from the `.env.docker` file.
+
+An example file is provided in the repository as `.env.docker.example`, which can be used as a reference to create the actual environment configuration.
+
+
+## Build and run the application
+
+From the root of the project, run:
+
+```bash
+docker compose build
+docker compose up
+```
+
    
 ## Future Improvements
 - Logging and monitoring
 - Improved validation rules 
 - API documentation (Swagger / OpenAPI)
-- Docker Support
 
 ## Postman Collection
 
