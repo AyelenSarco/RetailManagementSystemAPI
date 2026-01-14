@@ -1,5 +1,6 @@
 package com.example.retail.retail_management_system.service.sale;
 
+import com.example.retail.retail_management_system.dto.DailySalesSummaryDTO;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.dto.SaleDetailDTO;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 @Slf4j
@@ -128,6 +130,23 @@ public class SaleService implements ISaleService {
                 .toList();
 
         return productDTOS;
+    }
+
+    @Override
+    public DailySalesSummaryDTO getDailySalesSummary(LocalDate date) {
+
+
+        DoubleSummaryStatistics  stats= saleRepo.findAll().stream()
+                .filter(sale -> sale.getSaleDate().isEqual(date))
+                .mapToDouble(Sale::getTotal)
+                .summaryStatistics();
+
+        return DailySalesSummaryDTO.builder()
+                .date(date)
+                .totalAmount(stats.getSum())
+                .totalSaleCount(Math.toIntExact(stats.getCount()))
+                .build();
+
     }
 
 
