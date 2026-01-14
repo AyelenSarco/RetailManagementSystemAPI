@@ -1,7 +1,6 @@
-package com.example.retail.retail_management_system.service.Product;
+package com.example.retail.retail_management_system.service.product;
 
 import com.example.retail.retail_management_system.dto.ProductDTO;
-import com.example.retail.retail_management_system.model.Product;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.example.retail.retail_management_system.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,11 @@ public class Customer {
     private String lastName;
 
     @Column(nullable = false)
+    @NotBlank
     private String contact;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 8)
+    @NotBlank
     private String dni;
 
 

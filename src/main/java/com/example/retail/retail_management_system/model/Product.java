@@ -19,6 +19,6 @@ public class Product {
 
     private String name;
     private String brand;
-    private Double currentPrince;
+    private Double currentPrice;
     private int stock;
 }

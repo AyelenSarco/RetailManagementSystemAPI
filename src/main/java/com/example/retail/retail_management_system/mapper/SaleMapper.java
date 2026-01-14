@@ -10,9 +10,10 @@ import org.mapstruct.Mapping;
             uses = SaleDetailMapper.class)
 public interface SaleMapper {
 
+    @Mapping(target="customerId", source="customer.id")
     SaleDTO toDTO(Sale sale);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target="customer", source="customer")
-    Sale toEntity(SaleDTO saleDTO, Customer customer);
+    @Mapping(target = "saleDetails", ignore = true)
+    Sale toEntity(SaleDTO saleDTO);
 }

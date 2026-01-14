@@ -1,4 +1,4 @@
-package com.example.retail.retail_management_system.service.Product;
+package com.example.retail.retail_management_system.service.product;
 
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.exception.NotFoundException;
@@ -58,12 +58,12 @@ public class ProductService implements IProductService {
             product.setName(productDTO.getName());
         }
         if (productDTO.getBrand() != null) {
-            product.setName(productDTO.getBrand());
+            product.setBrand(productDTO.getBrand());
         }
         if (productDTO.getCurrentPrice() != null) {
-            product.setCurrentPrince(productDTO.getCurrentPrice());
+            product.setCurrentPrice(productDTO.getCurrentPrice());
         }
-        if (productDTO.getStock() != product.getStock()) {
+        if (productDTO.getStock() != null) {
             product.setStock(productDTO.getStock());
         }
 
