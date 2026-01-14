@@ -4,9 +4,11 @@ package com.example.retail.retail_management_system.exception;
 import com.example.retail.retail_management_system.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
@@ -35,6 +37,20 @@ public class ApiExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.failure("Internal Server Error", List.of(error)));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        List<ApiError> errors = new ArrayList<>();
+
+        ex.getBindingResult().getFieldErrors().forEach((fieldError) -> {
+            errors.add(new ApiError(
+                    fieldError.getField() + ": " + fieldError.getDefaultMessage(), "BAD_REQUEST"));
+        });
+
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.failure("Bad Request", errors));
     }
 
 }
