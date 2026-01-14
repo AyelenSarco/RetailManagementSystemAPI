@@ -11,4 +11,6 @@ public interface IProductService {
     ProductDTO getProductById(Long id);
     void deleteProduct(Long id);
     ProductDTO updateProduct(Long id, ProductDTO productDTO);
+
+    List<ProductDTO> checkStock(Integer quantity);
 }
