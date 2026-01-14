@@ -2,6 +2,7 @@ package com.example.retail.retail_management_system.controller;
 
 
 import com.example.retail.retail_management_system.dto.ApiResponse;
+import com.example.retail.retail_management_system.dto.DailySalesSummaryDTO;
 import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.service.sale.SaleService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -65,5 +67,14 @@ public class SaleController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("Products from sale with Code: " + saleId, productDTOS));
+    }
+
+    @GetMapping("/daily/{date}")
+    public ResponseEntity<Object> getDailySummary(@PathVariable LocalDate date) {
+
+        DailySalesSummaryDTO dailySalesSummaryDTO = saleService.getDailySalesSummary(date);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("Daily total", dailySalesSummaryDTO));
     }
 }
