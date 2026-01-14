@@ -1,9 +1,11 @@
 package com.example.retail.retail_management_system.service.sale;
 
+import com.example.retail.retail_management_system.dto.ProductDTO;
 import com.example.retail.retail_management_system.dto.SaleDTO;
 import com.example.retail.retail_management_system.dto.SaleDetailDTO;
 import com.example.retail.retail_management_system.exception.InsufficientStockException;
 import com.example.retail.retail_management_system.exception.NotFoundException;
+import com.example.retail.retail_management_system.mapper.ProductMapper;
 import com.example.retail.retail_management_system.mapper.SaleDetailMapper;
 import com.example.retail.retail_management_system.mapper.SaleMapper;
 import com.example.retail.retail_management_system.model.Customer;
@@ -14,12 +16,14 @@ import com.example.retail.retail_management_system.repository.ICustomerRepositor
 import com.example.retail.retail_management_system.repository.IProductRepository;
 import com.example.retail.retail_management_system.repository.ISaleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SaleService implements ISaleService {
@@ -29,6 +33,7 @@ public class SaleService implements ISaleService {
     private final IProductRepository productRepo;
     private final SaleMapper saleMapper;
     private final SaleDetailMapper saleDetailMapper;
+    private final ProductMapper productMapper;
 
     @Override
     public SaleDTO createSale(SaleDTO saleDTO) {
@@ -110,6 +115,19 @@ public class SaleService implements ISaleService {
 
         return saleMapper.toDTO(sale);
 
+    }
+
+    @Override
+    public List<ProductDTO> getProductsFromSale(Long id) {
+
+        Sale sale =  saleRepo.findById(id).orElseThrow(() -> new NotFoundException("Sale not found"));
+
+        List<ProductDTO> productDTOS = sale.getSaleDetails().stream()
+                .map(SaleDetail::getProduct)
+                .map(productMapper::toDTO)
+                .toList();
+
+        return productDTOS;
     }
 
 
